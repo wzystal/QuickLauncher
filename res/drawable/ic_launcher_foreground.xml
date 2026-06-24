@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- 参考微软桌面：两片重叠的倾斜折面 -->
+    <path
+        android:fillColor="@color/ic_launcher_blue_light"
+        android:pathData="M33,40 L55,29 L59,49 L37,60 Z" />
+    <path
+        android:fillColor="@color/ic_launcher_blue_dark"
+        android:pathData="M49,52 L71,41 L75,61 L53,72 Z" />
+</vector>

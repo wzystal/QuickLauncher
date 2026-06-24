@@ -1,0 +1,145 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.18'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.protobuf'
+
+android {
+    namespace 'com.android.launcher3'
+    compileSdkVersion 33
+
+    defaultConfig {
+        applicationId 'com.wzystal.launcher'
+        minSdkVersion 23
+        targetSdkVersion 34
+        versionCode 10001
+        versionName '1.0.0-aosp'
+
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+
+        // 旧版 Launcher3 部分 locale 资源与 AGP 33+ 不兼容，先保留常用语言
+        resConfigs 'en', 'zh-rCN', 'zh-rTW', 'ja', 'ko'
+    }
+
+    lint {
+        abortOnError false
+    }
+
+    signingConfigs {
+        release {
+            def ciKeystore = System.getenv('RELEASE_KEYSTORE_PATH')
+            if (ciKeystore != null) {
+                storeFile file(ciKeystore)
+                storePassword System.getenv('RELEASE_STORE_PASSWORD')
+                keyAlias System.getenv('RELEASE_KEY_ALIAS')
+                keyPassword System.getenv('RELEASE_KEY_PASSWORD')
+            } else if (file('keystore.properties').exists()) {
+                def props = new Properties()
+                file('keystore.properties').withInputStream { props.load(it) }
+                storeFile file(props['storeFile'])
+                storePassword props['storePassword']
+                keyAlias props['keyAlias']
+                keyPassword props['keyPassword']
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard.flags'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    flavorDimensions 'channel'
+    productFlavors {
+        aosp {
+            dimension 'channel'
+        }
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = ['res']
+            java.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            assets.srcDirs = ['assets']
+            manifest.srcFile 'AndroidManifest-common.xml'
+            proto {
+                srcDir 'protos/'
+                srcDir 'proto_overrides/'
+                srcDir 'proto_pixel/'
+            }
+        }
+
+        aosp {
+            java.srcDirs = ['src_flags']
+            manifest.srcFile 'AndroidManifest.xml'
+        }
+
+        androidTest {
+            res.srcDirs = ['tests/res']
+            java.srcDirs = ['tests/src']
+            manifest.srcFile 'tests/AndroidManifest-common.xml'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+repositories {
+    mavenCentral()
+    google()
+}
+
+final String SUPPORT_LIBS_VERSION = '28.0.0'
+dependencies {
+    implementation "com.android.support:support-v4:${SUPPORT_LIBS_VERSION}"
+    implementation "com.android.support:support-dynamic-animation:${SUPPORT_LIBS_VERSION}"
+    implementation "com.android.support:recyclerview-v7:${SUPPORT_LIBS_VERSION}"
+    implementation "com.android.support:palette-v7:${SUPPORT_LIBS_VERSION}"
+    implementation 'com.google.protobuf.nano:protobuf-javanano:3.2.0rc2'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3'
+    androidTestImplementation "com.android.support:support-annotations:${SUPPORT_LIBS_VERSION}"
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.0.0-alpha-3'
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                remove java
+                javanano {
+                    option 'java_package=launcher_log_extension.proto|com.android.launcher3.userevent.nano'
+                    option 'java_package=launcher_log.proto|com.android.launcher3.userevent.nano'
+                    option 'java_package=launcher_dump.proto|com.android.launcher3.model.nano'
+                    option 'java_package=search.proto|com.google.android.apps.nexuslauncher.search.nano'
+                    option 'java_package=smartspace.proto|com.google.android.apps.nexuslauncher.smartspace.nano'
+                    option 'enum_style=java'
+                }
+            }
+        }
+    }
+}
