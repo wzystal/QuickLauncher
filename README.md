@@ -1,6 +1,6 @@
-# Launcher3 AOSP — 方案 A（冻结 Android 8.1 无 Quickstep）
+# LiteLauncher
 
-基于 [amirzaidi/Launcher3](https://github.com/amirzaidi/Launcher3) `o-mr1` 分支（Android 8.1 Oreo 时代 AOSP Launcher3 + Rootless 改造），**无 Quickstep**，可作为**独立 APK** 安装。
+基于 [amirzaidi/Launcher3](https://github.com/amirzaidi/Launcher3) `o-mr1` 分支（Android 8.1 Oreo 时代 AOSP Launcher3 + Rootless 改造），**无 Quickstep**，可作为**独立 APK** 安装。应用显示名：**Lite Launcher**。
 
 ## 特性
 
@@ -17,10 +17,12 @@
 
 | 项 | 值 |
 |----|-----|
+| 项目名 | `LiteLauncher` |
+| 应用名 | `Lite Launcher` |
 | `applicationId` | `com.wzystal.launcher` |
 | 入口 Activity | `com.google.android.apps.nexuslauncher.NexusLauncherActivity` |
 | 编译变体 | `aospDebug` / `aospRelease` |
-| 版本 | `1.0.0-aosp` |
+| 版本 | `1.0.0` |
 
 ## 构建与安装
 
@@ -34,21 +36,11 @@
 ./gradlew assembleAospDebug
 ```
 
-APK 路径：`build/outputs/apk/aosp/debug/launcher3-aosp-aosp-debug.apk`
+APK 路径：`build/outputs/apk/aosp/debug/LiteLauncher-aosp-debug.apk`
 
 ## 设默桌面
 
-安装后：系统设置 → 应用 → 默认应用 → 桌面 → 选择本应用。
-
-（与 `launcher3-home` 不同，本工程使用 AOSP 8.1 完整桌面实现。）
-
-## 相对 launcher3-home
-
-| | launcher3-home | launcher3-aosp（本工程） |
-|--|----------------|--------------------------|
-| UI | RecyclerView 简化版 | 真 Launcher3 CellLayout |
-| 代码量 | ~12 文件 | ~800 文件 |
-| 基线 | 自研骨架 | 冻结 AOSP 8.1 |
+安装后：系统设置 → 应用 → 默认应用 → 桌面 → 选择 **Lite Launcher**。
 
 ## CI / Release（GitHub + 蒲公英 + 钉钉）
 
@@ -68,12 +60,12 @@ push 到 `main` 后自动：
 
 ```bash
 ~/tools/scripts/generate-release-keystore.sh "$(pwd)"
-~/tools/scripts/setup-github-secrets.sh --project-dir "$(pwd)" wzystal/launcher3-aosp
-~/tools/scripts/setup-shared-secrets.sh --repos wzystal/launcher3-aosp
+~/tools/scripts/setup-github-secrets.sh --project-dir "$(pwd)" wzystal/LiteLauncher
+~/tools/scripts/setup-shared-secrets.sh --repos wzystal/LiteLauncher
 ```
 
 CI 参数见 `ci/release.env`。
 
 ## 路径
 
-`/Users/zhaoyang.wzy/work/launcher3-aosp`
+`/Users/zhaoyang.wzy/work/LiteLauncher`
