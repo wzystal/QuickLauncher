@@ -1,6 +1,6 @@
-# LiteLauncher
+# QuickLauncher
 
-基于 [amirzaidi/Launcher3](https://github.com/amirzaidi/Launcher3) `o-mr1` 分支（Android 8.1 Oreo 时代 AOSP Launcher3 + Rootless 改造），**无 Quickstep**，可作为**独立 APK** 安装。应用显示名：**Lite Launcher**。
+基于 [amirzaidi/Launcher3](https://github.com/amirzaidi/Launcher3) `o-mr1` 分支（Android 8.1 Oreo 时代 AOSP Launcher3 + Rootless 改造），**无 Quickstep**，可作为**独立 APK** 安装。应用显示名：**Quick Launcher**。
 
 ## 特性
 
@@ -17,8 +17,8 @@
 
 | 项 | 值 |
 |----|-----|
-| 项目名 | `LiteLauncher` |
-| 应用名 | `Lite Launcher` |
+| 项目名 | `QuickLauncher` |
+| 应用名 | `Quick Launcher` |
 | `applicationId` | `com.wzystal.launcher` |
 | 入口 Activity | `com.google.android.apps.nexuslauncher.NexusLauncherActivity` |
 | 编译变体 | `aospDebug` / `aospRelease` |
@@ -36,11 +36,11 @@
 ./gradlew assembleAospDebug
 ```
 
-APK 路径：`build/outputs/apk/aosp/debug/LiteLauncher-aosp-debug.apk`
+APK 路径：`build/outputs/apk/aosp/debug/QuickLauncher-aosp-debug.apk`
 
 ## 设默桌面
 
-安装后：系统设置 → 应用 → 默认应用 → 桌面 → 选择 **Lite Launcher**。
+安装后：系统设置 → 应用 → 默认应用 → 桌面 → 选择 **Quick Launcher**。
 
 ## CI / Release（GitHub + 蒲公英 + 钉钉）
 
@@ -60,12 +60,12 @@ push 到 `main` 后自动：
 
 ```bash
 ~/tools/scripts/generate-release-keystore.sh "$(pwd)"
-~/tools/scripts/setup-github-secrets.sh --project-dir "$(pwd)" wzystal/LiteLauncher
-~/tools/scripts/setup-shared-secrets.sh --repos wzystal/LiteLauncher
+~/tools/scripts/setup-github-secrets.sh --project-dir "$(pwd)" wzystal/QuickLauncher
+~/tools/scripts/setup-shared-secrets.sh --repos wzystal/QuickLauncher
 ```
 
 CI 参数见 `ci/release.env`。
 
 ## 路径
 
-`/Users/zhaoyang.wzy/work/LiteLauncher`
+`/Users/zhaoyang.wzy/work/QuickLauncher`

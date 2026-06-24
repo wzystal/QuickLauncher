@@ -5,7 +5,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT_DIR"
 
-APK_PATH="${APK_PATH:-build/outputs/apk/aosp/debug/LiteLauncher-aosp-debug.apk}"
+APK_PATH="${APK_PATH:-build/outputs/apk/aosp/debug/QuickLauncher-aosp-debug.apk}"
 STAMP_FILE=".build-and-install.stamp"
 CRASH_LOG=".build-and-install-crash.log"
 GRADLE="./gradlew"
