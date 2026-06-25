@@ -1,0 +1,13 @@
+---
+description: README 编写约定（QuickLauncher 及同类 Android 项目）
+globs: README.md
+alwaysApply: false
+---
+
+# README 编写约定
+
+编写或更新 `README.md` 时：
+
+- **不要**写 CI / Release 章节（GitHub Actions、蒲公英、钉钉、Secrets 配置、workflow 说明等）
+- **不要**写本地绝对路径（如 `/Users/...`）
+- 保留：项目简介、特性、配置、`build-and-install.sh` / 编译命令、设默桌面等使用说明

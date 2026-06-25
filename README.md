@@ -41,31 +41,3 @@ APK 路径：`build/outputs/apk/aosp/debug/QuickLauncher-aosp-debug.apk`
 ## 设默桌面
 
 安装后：系统设置 → 应用 → 默认应用 → 桌面 → 选择 **Quick Launcher**。
-
-## CI / Release（GitHub + 蒲公英 + 钉钉）
-
-push 到 `main` 后自动：
-
-1. `assembleAospRelease` 签名打包
-2. 创建 GitHub Release 并附 APK
-3. 上传蒲公英（可选）
-4. 钉钉群 Markdown 通知
-
-| Workflow | 触发 |
-|----------|------|
-| `pr-ci.yml` | PR / push main，编译 Debug |
-| `release-notify.yml` | push main，Release + 通知 |
-
-配置 Secrets（首次）：
-
-```bash
-~/tools/scripts/generate-release-keystore.sh "$(pwd)"
-~/tools/scripts/setup-github-secrets.sh --project-dir "$(pwd)" wzystal/QuickLauncher
-~/tools/scripts/setup-shared-secrets.sh --repos wzystal/QuickLauncher
-```
-
-CI 参数见 `ci/release.env`。
-
-## 路径
-
-`/Users/zhaoyang.wzy/work/QuickLauncher`
