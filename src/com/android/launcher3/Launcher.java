@@ -130,7 +130,6 @@ import com.android.launcher3.util.PackageManagerHelper;
 import com.android.launcher3.util.PackageUserKey;
 import com.android.launcher3.util.PendingRequestArgs;
 import com.android.launcher3.util.SystemUiController;
-import com.android.launcher3.util.TestingUtils;
 import com.android.launcher3.util.Themes;
 import com.android.launcher3.util.Thunk;
 import com.android.launcher3.util.ViewOnDrawExecutor;
@@ -233,8 +232,6 @@ public class Launcher extends BaseActivity
     @Thunk DragLayer mDragLayer;
     private DragController mDragController;
 
-    public View mWeightWatcher;
-
     private AppWidgetManagerCompat mAppWidgetManager;
     private LauncherAppWidgetHost mAppWidgetHost;
 
@@ -306,12 +303,6 @@ public class Launcher extends BaseActivity
 
     protected static final HashMap<String, CustomAppWidget> sCustomAppWidgets =
         new HashMap<>();
-
-    static {
-        if (TestingUtils.ENABLE_CUSTOM_WIDGET_TEST) {
-            TestingUtils.addDummyWidget(sCustomAppWidgets);
-        }
-    }
 
     // Exiting spring loaded mode happens with a delay. This runnable object triggers the
     // state transition. If another state transition happened during this delay,
@@ -1052,9 +1043,6 @@ public class Launcher extends BaseActivity
         if (mAllAppsController.isTransitioning()) {
             mAppsView.setVisibility(View.VISIBLE);
         }
-        if (shouldShowDiscoveryBounce()) {
-            mAllAppsController.showDiscoveryBounce();
-        }
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onResume();
         }
@@ -1319,10 +1307,6 @@ public class Launcher extends BaseActivity
         mDropTargetBar.setup(mDragController);
 
         mAllAppsController.setupViews(mAppsView, mHotseat, mWorkspace);
-
-        if (TestingUtils.MEMORY_DUMP_ENABLED) {
-            TestingUtils.addWeightWatcher(this);
-        }
     }
 
     private void setupOverviewPanel() {
@@ -3920,11 +3904,6 @@ public class Launcher extends BaseActivity
             return;
         }
         mSharedPrefs.edit().putBoolean(APPS_VIEW_SHOWN, true).apply();
-    }
-
-    private boolean shouldShowDiscoveryBounce() {
-        UserManagerCompat um = UserManagerCompat.getInstance(this);
-        return mState == State.WORKSPACE && !mSharedPrefs.getBoolean(APPS_VIEW_SHOWN, false) && !um.isDemoUser();
     }
 
     protected void moveWorkspaceToDefaultScreen() {

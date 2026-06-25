@@ -169,13 +169,6 @@ public class AllAppsRecyclerView extends BaseRecyclerView implements LogContaine
                 AllAppsGridAdapter.VIEW_TYPE_SEARCH_MARKET);
         putSameHeightFor(adapter, widthMeasureSpec, heightMeasureSpec,
                 AllAppsGridAdapter.VIEW_TYPE_EMPTY_SEARCH);
-
-        if (FeatureFlags.DISCOVERY_ENABLED) {
-            putSameHeightFor(adapter, widthMeasureSpec, heightMeasureSpec,
-                    AllAppsGridAdapter.VIEW_TYPE_APPS_LOADING_DIVIDER);
-            putSameHeightFor(adapter, widthMeasureSpec, heightMeasureSpec,
-                    AllAppsGridAdapter.VIEW_TYPE_DISCOVERY_ITEM);
-        }
     }
 
     private void putSameHeightFor(AllAppsGridAdapter adapter, int w, int h, int... viewTypes) {

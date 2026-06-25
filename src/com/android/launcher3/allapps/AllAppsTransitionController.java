@@ -1,7 +1,6 @@
 package com.android.launcher3.allapps;
 
 import android.animation.Animator;
-import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
@@ -102,9 +101,6 @@ public class AllAppsTransitionController implements TouchController, SwipeDetect
     private boolean mNoIntercept;
     private boolean mTouchEventStartedOnHotseat;
 
-    // Used in discovery bounce animation to provide the transition without workspace changing.
-    private boolean mIsTranslateWithoutWorkspace = false;
-    private Animator mDiscoBounceAnimation;
     private GradientView mGradientView;
 
     private SpringAnimation mSearchSpring;
@@ -421,9 +417,6 @@ public class AllAppsTransitionController implements TouchController, SwipeDetect
                     hotseatAlpha);
         }
 
-        if (mIsTranslateWithoutWorkspace) {
-            return;
-        }
         mWorkspace.setWorkspaceYTranslationAndAlpha(
                 PARALLAX_COEFFICIENT * (-mShiftRange + shiftCurrent), workspaceAlpha);
 
@@ -492,39 +485,6 @@ public class AllAppsTransitionController implements TouchController, SwipeDetect
         });
         mCurrentAnimation = animationOut;
         return shouldPost;
-    }
-
-    public void showDiscoveryBounce() {
-        // cancel existing animation in case user locked and unlocked at a super human speed.
-        cancelDiscoveryAnimation();
-
-        // assumption is that this variable is always null
-        mDiscoBounceAnimation = AnimatorInflater.loadAnimator(mLauncher,
-                R.animator.discovery_bounce);
-        mDiscoBounceAnimation.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animator) {
-                mIsTranslateWithoutWorkspace = true;
-                preparePull(true);
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                finishPullDown();
-                mDiscoBounceAnimation = null;
-                mIsTranslateWithoutWorkspace = false;
-            }
-        });
-        mDiscoBounceAnimation.setTarget(this);
-        mAppsView.post(new Runnable() {
-            @Override
-            public void run() {
-                if (mDiscoBounceAnimation == null) {
-                    return;
-                }
-                mDiscoBounceAnimation.start();
-            }
-        });
     }
 
     public boolean animateToWorkspace(AnimatorSet animationOut, long duration) {
@@ -602,15 +562,6 @@ public class AllAppsTransitionController implements TouchController, SwipeDetect
             mCurrentAnimation.cancel();
             mCurrentAnimation = null;
         }
-        cancelDiscoveryAnimation();
-    }
-
-    public void cancelDiscoveryAnimation() {
-        if (mDiscoBounceAnimation == null) {
-            return;
-        }
-        mDiscoBounceAnimation.cancel();
-        mDiscoBounceAnimation = null;
     }
 
     private void cleanUpAnimation() {

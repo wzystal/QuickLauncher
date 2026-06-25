@@ -41,8 +41,6 @@ import com.android.launcher3.allapps.AllAppsRecyclerView;
 import com.android.launcher3.allapps.AlphabeticalAppsList;
 import com.android.launcher3.allapps.SearchUiManager;
 import com.android.launcher3.config.FeatureFlags;
-import com.android.launcher3.discovery.AppDiscoveryItem;
-import com.android.launcher3.discovery.AppDiscoveryUpdateState;
 import com.android.launcher3.graphics.TintedDrawableSpan;
 import com.android.launcher3.util.ComponentKey;
 import java.util.ArrayList;
@@ -196,15 +194,6 @@ public class AppsSearchContainerLayout extends FrameLayout
         mSearchQueryBuilder.clear();
         mSearchQueryBuilder.clearSpans();
         Selection.setSelection(mSearchQueryBuilder, 0);
-    }
-
-    @Override
-    public void onAppDiscoverySearchUpdate(
-            @Nullable AppDiscoveryItem app, @NonNull AppDiscoveryUpdateState state) {
-        if (!mLauncher.isDestroyed()) {
-            mApps.onAppDiscoverySearchUpdate(app, state);
-            notifyResultChanged();
-        }
     }
 
     private void notifyResultChanged() {
