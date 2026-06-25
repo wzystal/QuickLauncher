@@ -1,6 +1,6 @@
 # QuickLauncher
 
-基于 [amirzaidi/Launcher3](https://github.com/amirzaidi/Launcher3) `o-mr1` 分支（Android 8.1 Oreo 时代 AOSP Launcher3 + Rootless 改造），**无 Quickstep**，可作为**独立 APK** 安装。应用显示名：**Quick Launcher**。
+基于 AOSP Launcher3（Android 8.1）+ Pixel Nexus Launcher 改造的第三方桌面应用，以独立 APK 形式安装，提供完整的 Workspace / Hotseat / 文件夹 / Widget / 拖拽等桌面能力，不含 Quickstep 手势导航。核心技术是经典的 MVC 式 Launcher 架构：SQLite 持久化布局、LauncherModel 后台加载 + 主线程绑定 UI、自定义 View 体系处理拖拽与状态切换。
 
 ## 特性
 
